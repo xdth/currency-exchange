@@ -1,17 +1,21 @@
 import React from 'react';
 import { Container, Select } from './styles';
 
-interface IProps {
-  [key: string]: any;
-};
-
 interface ICurrency {
   code: string;
   value: number | string;
 }
 
-const CurrencyBox: React.FC<IProps> = (props) => {
+interface IProps {
+  amount: number;
+  allRates: ICurrency[] | undefined;
+  onChangeAmount(e: React.ChangeEvent<HTMLInputElement>): void;
+  onChangeCurrencyBox1?(e: React.ChangeEvent<HTMLSelectElement>): void;
+  onChangeCurrencyBox2?(e: React.ChangeEvent<HTMLSelectElement>): void;
+  selected: string;
+};
 
+const CurrencyBox: React.FC<IProps> = (props) => {
   const {
     amount,
     allRates,
@@ -32,7 +36,7 @@ const CurrencyBox: React.FC<IProps> = (props) => {
           onChange={onChangeAmount}
         />
 
-        <Select name="cars" id="cars" value={selected} onChange={onChangeCurrency} >
+        <Select value={selected} onChange={onChangeCurrency} >
           {allRates && allRates.map((currency: ICurrency) => (
             <option key={currency.code} value={currency.code}>
               {currency.code}

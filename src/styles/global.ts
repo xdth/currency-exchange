@@ -22,6 +22,5 @@ export default createGlobalStyle`
   }
   #equals {
     font-weight: bold;
-
   }
 `;

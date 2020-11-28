@@ -5,7 +5,7 @@ import CurrencyBox from './components/CurrencyBox';
 
 interface ICurrency {
   code: string;
-  value: number | string;
+  value: number;
 }
  
 interface IStoredData {
@@ -16,10 +16,10 @@ interface IStoredData {
 const App: React.FC = () => {
   const [rates, setRates] = useState<ICurrency[]>();
   const [ratesUpdatedOn, setRatesUpdatedOn] = useState<number | null>(null);
-  const [amountBox1, setAmountBox1] = useState<number | null>(1)
-  const [amountBox2, setAmountBox2] = useState<number | null>(0)
-  const [currencyBox1, setCurrencyBox1] = useState<string | null>('EUR')
-  const [currencyBox2, setCurrencyBox2] = useState<string | null>('USD')
+  const [amountBox1, setAmountBox1] = useState<number>(1)
+  const [amountBox2, setAmountBox2] = useState<number>(0)
+  const [currencyBox1, setCurrencyBox1] = useState<string>('EUR')
+  const [currencyBox2, setCurrencyBox2] = useState<string>('USD')
 
   useEffect(() => {
     if (ratesUpdatedOn) {
@@ -42,8 +42,8 @@ const App: React.FC = () => {
         for (let key in data.rates){
           if(data.rates.hasOwnProperty(key)){
             ratesArray.push({
-              code: `${key}`,
-              value: `${data.rates[key]}`
+              code: key,
+              value: data.rates[key]
             });
           }
         }
@@ -66,13 +66,13 @@ const App: React.FC = () => {
     // if there updated data in localstorage, do not call api
     if (storedData && storedData.rates && storedData.ratesUpdatedOn) {
       const timeElapsed = Date.now() - storedData.ratesUpdatedOn;
-      // timeElapsed < 3600000
-      //   && setRates(storedData.rates)
-      //   && setRatesUpdatedOn(Date.now());
-      if (timeElapsed < 3600000) {
-        setRates(storedData.rates)
-        setRatesUpdatedOn(Date.now());
-      }
+      timeElapsed < 3600000
+        && setRates(storedData.rates)
+        && setRatesUpdatedOn(Date.now());
+      // if (timeElapsed < 3600000) {
+      //   setRates(storedData.rates)
+      //   setRatesUpdatedOn(Date.now());
+      // }
     } else {
       // call api
       fetchRates();
@@ -158,7 +158,7 @@ const App: React.FC = () => {
         amount={amountBox1}
         allRates={rates}
         onChangeAmount={handleAmountChangeBox1}
-        onChangeCurrencyBox1={handleCurrencyChangeBox1}
+        onChangeCurrencyBox1={() => handleCurrencyChangeBox1}
         selected={currencyBox1}
       />
 
@@ -170,7 +170,7 @@ const App: React.FC = () => {
         amount={amountBox2}
         allRates={rates}
         onChangeAmount={handleAmountChangeBox2}
-        onChangeCurrencyBox2={handleCurrencyChangeBox2}
+        onChangeCurrencyBox2={() => handleCurrencyChangeBox2}
         selected={currencyBox2}
       />
 
