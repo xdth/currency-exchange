@@ -124,12 +124,12 @@ const App: React.FC = () => {
     setAmountBox2(parseFloat(e.target.value));
   }
 
-  function handleCurrencyChangeBox1(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleCurrencyChangeBox1(e: React.ChangeEvent<HTMLSelectElement>) {
     console.log("ran handleCurrencyChangeBox1");
     setCurrencyBox1(e.target.value);
   }
 
-  function handleCurrencyChangeBox2(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleCurrencyChangeBox2(e: React.ChangeEvent<HTMLSelectElement>) {
     console.log("ran handleCurrencyChangeBox2");
     setCurrencyBox2(e.target.value);
   }
@@ -158,7 +158,7 @@ const App: React.FC = () => {
         amount={amountBox1}
         allRates={rates}
         onChangeAmount={handleAmountChangeBox1}
-        onChangeCurrencyBox1={() => handleCurrencyChangeBox1}
+        onChangeCurrencyBox1={handleCurrencyChangeBox1}
         selected={currencyBox1}
       />
 
@@ -170,7 +170,7 @@ const App: React.FC = () => {
         amount={amountBox2}
         allRates={rates}
         onChangeAmount={handleAmountChangeBox2}
-        onChangeCurrencyBox2={() => handleCurrencyChangeBox2}
+        onChangeCurrencyBox2={handleCurrencyChangeBox2}
         selected={currencyBox2}
       />
 

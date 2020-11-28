@@ -9,13 +9,20 @@ interface ICurrency {
 interface IProps {
   amount: number;
   allRates: ICurrency[] | undefined;
-  onChangeAmount(e: React.ChangeEvent<HTMLInputElement>): void;
-  onChangeCurrencyBox1?(e: React.ChangeEvent<HTMLSelectElement>): void;
-  onChangeCurrencyBox2?(e: React.ChangeEvent<HTMLSelectElement>): void;
+  onChangeAmount(event: React.ChangeEvent<HTMLInputElement>): void;
+  onChangeCurrencyBox1?(event: React.ChangeEvent<HTMLSelectElement>): void;
+  onChangeCurrencyBox2?(event: React.ChangeEvent<HTMLSelectElement>): void;
   selected: string;
 };
 
+// interface IProps {
+//   [key: string]: any;
+// };
+
 const CurrencyBox: React.FC<IProps> = (props) => {
+
+  console.log(props);
+  
   const {
     amount,
     allRates,
