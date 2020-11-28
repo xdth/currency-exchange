@@ -24,7 +24,6 @@ const App: React.FC = () => {
   useEffect(() => {
     if (ratesUpdatedOn) {
       localStorage.setItem('dthCurrencyConverter', JSON.stringify({rates: rates, ratesUpdatedOn: ratesUpdatedOn}));
-      // console.log("callback: " + JSON.stringify({rates: rates, ratesUpdatedOn: ratesUpdatedOn}));
     }
   }, [rates, ratesUpdatedOn]);
 
@@ -61,24 +60,10 @@ const App: React.FC = () => {
       }
     }
 
-
-
-/*
-
-    do not call api
-    - data from localStorage is not null, it does exist
-    - this data was not created after 24h
-
-    call api
-    - 
-*/
     const data = localStorage.getItem('dthCurrencyConverter');
-    // console.log("dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + data);
-    
     const storedData: IStoredData = data && JSON.parse(data);
-    // console.log("storedData " + storedData.rates);
 
-    // do not call
+    // if there updated data in localstorage, do not call api
     if (storedData && storedData.rates && storedData.ratesUpdatedOn) {
       const timeElapsed = Date.now() - storedData.ratesUpdatedOn;
       // timeElapsed < 3600000
@@ -88,12 +73,9 @@ const App: React.FC = () => {
         setRates(storedData.rates)
         setRatesUpdatedOn(Date.now());
       }
-
-      console.log("do not call api");
     } else {
-      console.log("call api ");
+      // call api
       fetchRates();
-      // dataSave();
     }
   }, []);
 
@@ -103,9 +85,6 @@ const App: React.FC = () => {
     if (amountBox1 && currencyBox1 === 'EUR') {
       const conversionCurrency = rates?.find(currency => currency.code === currencyBox2);
       const conversionRate = conversionCurrency?.value || false;
-
-      console.log(roundNumber(amountBox1 * Number(conversionRate)));
-      
       conversionRate && setAmountBox2(roundNumber(amountBox1 * Number(conversionRate)));
       return;
     }
@@ -114,11 +93,7 @@ const App: React.FC = () => {
     if (amountBox1 && currencyBox2 === 'EUR') {
       const conversionCurrency = rates?.find(currency => currency.code === currencyBox1);
       const conversionRate = conversionCurrency?.value || false;
-
-      console.log(roundNumber(amountBox1 / Number(conversionRate)));
-      
       conversionRate && setAmountBox2(roundNumber(amountBox1 / Number(conversionRate)));
-
       return;
     }
 
@@ -127,13 +102,10 @@ const App: React.FC = () => {
       const conversionCurrency = rates?.find(currency => currency.code === currencyBox1);
       const conversionRate = conversionCurrency?.value || false;
       const base = amountBox1 / Number(conversionRate) 
-      console.log(amountBox1 / Number(conversionRate));
-
 
       const conversionCurrency2 = rates?.find(currency => currency.code === currencyBox2);
       const conversionRate2 = conversionCurrency2?.value || false;
       const converted = base * Number(conversionRate2);
-      console.log(base * Number(conversionRate2));
       
       conversionRate && setAmountBox2(roundNumber(converted));
 
@@ -175,10 +147,6 @@ const App: React.FC = () => {
   }
 
   function roundNumber(number: number) {
-    // return Math.round((number + Number.EPSILON) * 100) / 100;
-    
-    // console.log("fixed: " + number.toFixed(4));
-    
     return parseFloat(number.toFixed(4));
   }
 
