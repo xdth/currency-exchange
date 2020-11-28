@@ -5,10 +5,10 @@ const Navbar: React.FC = () => {
   return (
     <>
       <Container>
-        <Logo>dthlabs.com</Logo>
+        <Logo>dth|CurrencyConverter</Logo>
         <Menu>
+          <MenuItem>GitHub</MenuItem>
           <MenuItem>About</MenuItem>
-          <MenuItem>Contact</MenuItem>
         </Menu>
       </Container>
     </>

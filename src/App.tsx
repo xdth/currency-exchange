@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GlobalStyle from './styles/global';
 import Navbar from './components/Navbar';
 import CurrencyBox from './components/CurrencyBox';
@@ -104,9 +104,9 @@ const App: React.FC = () => {
       const conversionCurrency = rates?.find(currency => currency.code === currencyBox2);
       const conversionRate = conversionCurrency?.value || false;
 
-      console.log(amountBox1 * Number(conversionRate));
+      console.log(roundNumber(amountBox1 * Number(conversionRate)));
       
-      conversionRate && setAmountBox2(amountBox1 * Number(conversionRate));
+      conversionRate && setAmountBox2(roundNumber(amountBox1 * Number(conversionRate)));
       return;
     }
 
@@ -115,9 +115,9 @@ const App: React.FC = () => {
       const conversionCurrency = rates?.find(currency => currency.code === currencyBox1);
       const conversionRate = conversionCurrency?.value || false;
 
-      console.log(amountBox1 / Number(conversionRate));
+      console.log(roundNumber(amountBox1 / Number(conversionRate)));
       
-      conversionRate && setAmountBox2(amountBox1 / Number(conversionRate));
+      conversionRate && setAmountBox2(roundNumber(amountBox1 / Number(conversionRate)));
 
       return;
     }
@@ -135,42 +135,21 @@ const App: React.FC = () => {
       const converted = base * Number(conversionRate2);
       console.log(base * Number(conversionRate2));
       
-      conversionRate && setAmountBox2(converted);
+      conversionRate && setAmountBox2(roundNumber(converted));
 
       return;
     }
-
-    
   }, [currencyBox1, amountBox1, currencyBox2, amountBox2, rates]);
   
-
-
-    /**
-     * Data storage functions
-     */
-
-    function dataSavex() {
-      return localStorage.setItem('dthCurrencyConverter', JSON.stringify({rates, ratesUpdatedOn}));
-    }
-
-
-    function dataGet() {
-      return localStorage.getItem('dthCurrencyConverter');
-    }
-
-    function dataDelete() {
-      return localStorage.removeItem('dthFocus');
-    }
-
   function handleAmountChangeBox1(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("ran handleAmountChangeBox1");
+    console.log("ran handleAmountChangeBox1: " + parseFloat(e.target.value));
     
-    setAmountBox1(parseInt(e.target.value));
+    setAmountBox1(parseFloat(e.target.value));
   }
 
   function handleAmountChangeBox2(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("ran handleAmountChangeBox2");
-    setAmountBox2(parseInt(e.target.value));
+    setAmountBox2(parseFloat(e.target.value));
   }
 
   function handleCurrencyChangeBox1(e: React.ChangeEvent<HTMLInputElement>) {
@@ -184,15 +163,23 @@ const App: React.FC = () => {
   }
 
   function handleToggleValues() {
-    const oldAmountFrom = amountBox1;
-    const oldAmountTo = amountBox2;
-    const oldCurrencyFrom = currencyBox1;
-    const oldCurrencyTo = currencyBox2;
+    const oldAmountBox1 = amountBox1;
+    const oldAmountBox2 = amountBox2;
+    const oldCurrencyBox1 = currencyBox1;
+    const oldCurrencyBox2 = currencyBox2;
 
-    setAmountBox1(oldAmountTo);
-    setAmountBox2(oldAmountFrom);
-    setCurrencyBox1(oldCurrencyTo);
-    setCurrencyBox2(oldCurrencyFrom);
+    setAmountBox1(oldAmountBox2);
+    setAmountBox2(oldAmountBox1);
+    setCurrencyBox1(oldCurrencyBox2);
+    setCurrencyBox2(oldCurrencyBox1);
+  }
+
+  function roundNumber(number: number) {
+    // return Math.round((number + Number.EPSILON) * 100) / 100;
+    
+    // console.log("fixed: " + number.toFixed(4));
+    
+    return parseFloat(number.toFixed(4));
   }
 
   return (
