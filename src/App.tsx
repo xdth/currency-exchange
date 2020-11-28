@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import GlobalStyle from './styles/global';
 import Navbar from './components/Navbar';
 import CurrencyBox from './components/CurrencyBox';
@@ -8,12 +8,25 @@ interface ICurrency {
   value: number | string;
 }
  
+interface IStoredData {
+  rates: ICurrency[];
+  ratesUpdatedOn: number;
+}
+
 const App: React.FC = () => {
   const [rates, setRates] = useState<ICurrency[]>();
+  const [ratesUpdatedOn, setRatesUpdatedOn] = useState<number | null>(null);
   const [amountBox1, setAmountBox1] = useState<number | null>(1)
   const [amountBox2, setAmountBox2] = useState<number | null>(0)
   const [currencyBox1, setCurrencyBox1] = useState<string | null>('EUR')
   const [currencyBox2, setCurrencyBox2] = useState<string | null>('USD')
+
+  useEffect(() => {
+    if (ratesUpdatedOn) {
+      localStorage.setItem('dthCurrencyConverter', JSON.stringify({rates: rates, ratesUpdatedOn: ratesUpdatedOn}));
+      // console.log("callback: " + JSON.stringify({rates: rates, ratesUpdatedOn: ratesUpdatedOn}));
+    }
+  }, [rates, ratesUpdatedOn]);
 
   // fetch rates
   useEffect(() => {
@@ -42,13 +55,48 @@ const App: React.FC = () => {
         });
 
         setRates(ratesArray);
+        setRatesUpdatedOn(Date.now());
       } catch(err) {
         throw new Error("The rates service is temporarily unavailable. Please try later.");
       }
     }
 
-    fetchRates();
+
+
+/*
+
+    do not call api
+    - data from localStorage is not null, it does exist
+    - this data was not created after 24h
+
+    call api
+    - 
+*/
+    const data = localStorage.getItem('dthCurrencyConverter');
+    // console.log("dataxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx " + data);
+    
+    const storedData: IStoredData = data && JSON.parse(data);
+    // console.log("storedData " + storedData.rates);
+
+    // do not call
+    if (storedData && storedData.rates && storedData.ratesUpdatedOn) {
+      const timeElapsed = Date.now() - storedData.ratesUpdatedOn;
+      // timeElapsed < 3600000
+      //   && setRates(storedData.rates)
+      //   && setRatesUpdatedOn(Date.now());
+      if (timeElapsed < 3600000) {
+        setRates(storedData.rates)
+        setRatesUpdatedOn(Date.now());
+      }
+
+      console.log("do not call api");
+    } else {
+      console.log("call api ");
+      fetchRates();
+      // dataSave();
+    }
   }, []);
+
 
   useEffect(() => {
     // if the conversion is from BASE to X, just multiply value of base * the rate from currencyBox2
@@ -95,6 +143,24 @@ const App: React.FC = () => {
     
   }, [currencyBox1, amountBox1, currencyBox2, amountBox2, rates]);
   
+
+
+    /**
+     * Data storage functions
+     */
+
+    function dataSavex() {
+      return localStorage.setItem('dthCurrencyConverter', JSON.stringify({rates, ratesUpdatedOn}));
+    }
+
+
+    function dataGet() {
+      return localStorage.getItem('dthCurrencyConverter');
+    }
+
+    function dataDelete() {
+      return localStorage.removeItem('dthFocus');
+    }
 
   function handleAmountChangeBox1(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("ran handleAmountChangeBox1");
