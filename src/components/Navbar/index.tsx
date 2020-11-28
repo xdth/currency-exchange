@@ -1,15 +1,11 @@
 import React from 'react';
-import { Container, Logo, Menu, MenuItem } from './styles';
+import { Container, Logo } from './styles';
  
 const Navbar: React.FC = () => {
   return (
     <>
       <Container>
         <Logo>dth|CurrencyConverter</Logo>
-        <Menu>
-          <MenuItem>GitHub</MenuItem>
-          <MenuItem>About</MenuItem>
-        </Menu>
       </Container>
     </>
   );

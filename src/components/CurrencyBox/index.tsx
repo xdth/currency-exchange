@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Select } from './styles';
+import { Container, Select, Input } from './styles';
 
 interface ICurrency {
   code: string;
@@ -20,9 +20,6 @@ interface IProps {
 // };
 
 const CurrencyBox: React.FC<IProps> = (props) => {
-
-  console.log(props);
-  
   const {
     amount,
     allRates,
@@ -36,7 +33,7 @@ const CurrencyBox: React.FC<IProps> = (props) => {
     <>
       <Container>
         
-        <input
+        <Input
           type="number"
           className="input"
           value={amount}

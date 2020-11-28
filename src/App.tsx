@@ -79,7 +79,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-
   useEffect(() => {
     // if the conversion is from BASE to X, just multiply value of base * the rate from currencyBox2
     if (amountBox1 && currencyBox1 === 'EUR') {
@@ -114,23 +113,18 @@ const App: React.FC = () => {
   }, [currencyBox1, amountBox1, currencyBox2, amountBox2, rates]);
   
   function handleAmountChangeBox1(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("ran handleAmountChangeBox1: " + parseFloat(e.target.value));
-    
     setAmountBox1(parseFloat(e.target.value));
   }
 
   function handleAmountChangeBox2(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("ran handleAmountChangeBox2");
     setAmountBox2(parseFloat(e.target.value));
   }
 
   function handleCurrencyChangeBox1(e: React.ChangeEvent<HTMLSelectElement>) {
-    console.log("ran handleCurrencyChangeBox1");
     setCurrencyBox1(e.target.value);
   }
 
   function handleCurrencyChangeBox2(e: React.ChangeEvent<HTMLSelectElement>) {
-    console.log("ran handleCurrencyChangeBox2");
     setCurrencyBox2(e.target.value);
   }
 
@@ -154,31 +148,34 @@ const App: React.FC = () => {
     <>
       <GlobalStyle />
       <Navbar />
-      <CurrencyBox
-        amount={amountBox1}
-        allRates={rates}
-        onChangeAmount={handleAmountChangeBox1}
-        onChangeCurrencyBox1={handleCurrencyChangeBox1}
-        selected={currencyBox1}
-      />
+      <section>
+        <div id="converter">
+          <CurrencyBox
+            amount={amountBox1}
+            allRates={rates}
+            onChangeAmount={handleAmountChangeBox1}
+            onChangeCurrencyBox1={handleCurrencyChangeBox1}
+            selected={currencyBox1}
+          />
 
-      <button onClick={handleToggleValues}>
-        <svg aria-hidden="true" data-id="icon-exchange" viewBox="0 0 50 47" height="32px" width="30px"><path fill="currentColor" fillRule="evenodd" d="M49.897 35.977L26.597 25v7.874H7.144v6.207h19.455v7.874zM.103 11.642l23.3 10.977v-7.874h19.454V8.538H23.402V.664z"></path></svg>
-      </button>
+          <button onClick={handleToggleValues}>
+            <svg aria-hidden="true" data-id="icon-exchange" viewBox="0 0 50 47" height="32px" width="30px"><path fill="currentColor" fillRule="evenodd" d="M49.897 35.977L26.597 25v7.874H7.144v6.207h19.455v7.874zM.103 11.642l23.3 10.977v-7.874h19.454V8.538H23.402V.664z"></path></svg>
+          </button>
 
-      <CurrencyBox
-        amount={amountBox2}
-        allRates={rates}
-        onChangeAmount={handleAmountChangeBox2}
-        onChangeCurrencyBox2={handleCurrencyChangeBox2}
-        selected={currencyBox2}
-      />
+          <CurrencyBox
+            amount={amountBox2}
+            allRates={rates}
+            onChangeAmount={handleAmountChangeBox2}
+            onChangeCurrencyBox2={handleCurrencyChangeBox2}
+            selected={currencyBox2}
+          />
 
-      {rates && rates.map(currency => (
-        <div key={currency.code}>
-          <strong>{currency.code} - {currency.value}</strong>
+          <div id="app-info">
+            <p>Source: European Central Bank</p>
+            <p>This app is updated hourly.</p>
+          </div>
         </div>
-      ))}
+      </section>
     </>
   );
 }

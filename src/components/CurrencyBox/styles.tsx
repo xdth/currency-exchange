@@ -6,8 +6,26 @@ export const Container = styled.div`
   align-items: center;
   height: 70px;
   color: #F1F1F1;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  margin: 10px;
 `;
 
 export const Select = styled.select`
-  border: 1px solid black;
+  height: 100%;
+  background-color:rgba(0, 0, 0, 0.5);
+  color: #F1F1F1;
+  padding: 0 10px;
+  border: none;
+
+  -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+`;
+
+export const Input = styled.input`
+  background-color:rgba(0, 0, 0, 0.5);
+  color: #F1F1F1;
+  height: 100%;
+  padding: 0 10px;
+  border: none;
 `;
