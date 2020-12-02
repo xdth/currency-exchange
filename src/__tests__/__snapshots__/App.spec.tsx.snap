@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component should take a snapshot of App 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-bdfBwQ gQlxaJ"
+  >
+    <div
+      class="sc-gsTCUz cKjvTW"
+    >
+      dth|CurrencyConverter
+    </div>
+  </div>
+  <section>
+    <div
+      id="converter"
+    >
+      <div
+        class="sc-dlfnbm kzGUoR"
+      >
+        <input
+          class="sc-eCssSg gPumV input"
+          type="number"
+          value="1"
+        />
+        <select
+          class="sc-hKgILt zNZQP"
+        />
+      </div>
+      <button>
+        <svg
+          aria-hidden="true"
+          data-id="icon-exchange"
+          height="32px"
+          viewBox="0 0 50 47"
+          width="30px"
+        >
+          <path
+            d="M49.897 35.977L26.597 25v7.874H7.144v6.207h19.455v7.874zM.103 11.642l23.3 10.977v-7.874h19.454V8.538H23.402V.664z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </button>
+      <div
+        class="sc-dlfnbm kzGUoR"
+      >
+        <input
+          class="sc-eCssSg gPumV input"
+          type="number"
+          value="0"
+        />
+        <select
+          class="sc-hKgILt zNZQP"
+        />
+      </div>
+      <div
+        id="app-info"
+      >
+        <p>
+          Source: European Central Bank
+        </p>
+        <p>
+          This app is updated hourly.
+        </p>
+      </div>
+    </div>
+  </section>
+</DocumentFragment>
+`;

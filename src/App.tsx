@@ -66,13 +66,15 @@ const App: React.FC = () => {
     // if there updated data in localstorage, do not call api
     if (storedData && storedData.rates && storedData.ratesUpdatedOn) {
       const timeElapsed = Date.now() - storedData.ratesUpdatedOn;
-      timeElapsed < 3600000
-        && setRates(storedData.rates)
-        && setRatesUpdatedOn(Date.now());
-      // if (timeElapsed < 3600000) {
-      //   setRates(storedData.rates)
-      //   setRatesUpdatedOn(Date.now());
-      // }
+      // timeElapsed < 3600000
+      //   && setRates(storedData.rates)
+      //   && setRatesUpdatedOn(Date.now());
+      if (timeElapsed < 3600000) {
+        setRates(storedData.rates)
+        setRatesUpdatedOn(Date.now());
+        return;
+      }
+      fetchRates();
     } else {
       // call api
       fetchRates();
